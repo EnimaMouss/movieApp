@@ -1,6 +1,6 @@
 # movieApp
 Setting up an application that makes streaming video available.
-[Source](https://github.com/EnimaMouss/mouviesApp)
+[Source](https://enimamouss.github.io/movieApp/)
 
 ## Getting Started
 
@@ -22,14 +22,14 @@ npm start
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
 We use [SemVer](https://semver.org/lang/fr/) for versioning.
 
 ## Authors
-EnimaMouss - "moussaceb.amine@gmail.com"
+EnimaMouss
 
 ## License
 
