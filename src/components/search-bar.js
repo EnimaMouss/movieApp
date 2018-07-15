@@ -6,12 +6,14 @@ class SearchBar extends Component {
     this.state = {
       searchText: "",
       placeHolder: "Tapez votre film...",
-      intervalBeforRequest: 500,
-      lockRequest: false
+      intervalBeforRequest: 1200,
+      lockRequest: false,
+      errorShow: false
     };
   }
   render() {
     return (
+      <div>
       <div className="row">
         <div className="col-md-8 input-group">
           <input
@@ -29,6 +31,7 @@ class SearchBar extends Component {
             </button>
           </span>
         </div>
+      </div>
       </div>
     );
   }
