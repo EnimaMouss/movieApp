@@ -5,14 +5,18 @@ import VideoDetail from "../components/video-detail";
 import { API_END_POINT, POPULAR_MOVIES_URL, API_KEY } from "../constantes";
 import VideoList from "./video-list";
 import Video from "../components/video";
+import NoResults from "../components/no-results";
+
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       movieList: {},
-      currentMovie: {}
+      currentMovie: {},
+      hiddenMsg: false
     };
+    console.log("1 - ",this.state.hiddenMsg);
   }
 
   componentWillMount() {
@@ -77,6 +81,7 @@ class App extends Component {
   }
   onClickSearch(searchText) {
     if (searchText) {
+      console.log("2 - ",this.state.hiddenMsg);
       axios
         .get(
           `${API_END_POINT}search/movie?${API_KEY}&language=fr&include_adult=false&query=${searchText}`
@@ -85,16 +90,10 @@ class App extends Component {
           function(response) {
             if (response.data && response.data.results[0]) {
               if (response.data.results[0].id !== this.state.currentMovie.id) {
-                this.setState(
-                  { currentMovie: response.data.results[0] },
-                  () => {
-                    this.applyVideoToCurrentMovie();
-                    this.setRecommendation();
-                  }
-                );
-              }
-            }
-          }.bind(this)
+                    this.showErrorMsg(response, searchText);
+        }
+      }
+        }.bind(this)
         );
     }
   }
@@ -105,6 +104,28 @@ class App extends Component {
       return true;
     }
   }
+  
+  showErrorMsg(response){
+    if (response.data.results[0].title !== this.state.currentMovie.title) {
+      this.setState(
+        { hiddenMsg: true, currentMovie: response.data.results[0] },
+        () => {
+          this.applyVideoToCurrentMovie();
+          this.setRecommendation();
+        }
+      );
+    }else{
+      this.setState(
+        { hiddenMsg: false, currentMovie: response.data.results[0] },
+        () => {
+          this.applyVideoToCurrentMovie();
+          this.setRecommendation();
+        }
+      );
+    }    
+  }
+  
+    
   render() {
     const renderVidoList = () => {
       if (this.state.movieList.length >= 5) {
@@ -118,9 +139,11 @@ class App extends Component {
     };
     return (
       <div>
-        <div className="search-bar">
-          <SearchBar callback={this.onClickSearch.bind(this)} />
+       <div className="search-bar">
+          <SearchBar callback={this.onClickSearch.bind(this)} /> 
+          {this.state.hiddenMsg ?<NoResults/>:false}       
         </div>
+
         <div className="row">
           <div className="col-md-8">
             <Video
@@ -134,8 +157,8 @@ class App extends Component {
             />
           </div>
           <div className="col-md-4">{renderVidoList()}</div>
-        </div>
-      </div>
+          </div>
+                 </div>
     );
   }
 }
